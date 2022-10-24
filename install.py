@@ -4,6 +4,7 @@ import time
 
 print("---------------------------------")
 print("Starting setup for Quiz Generator....")
+
 print("---------------------------------")
 time.sleep(3)
 
@@ -23,7 +24,7 @@ else:
 cur.execute("USE QUIZDB")
 print("---------------------------------")
 try:
-    cur.execute("CREATE TABLE USERS (ursno int not null auto_increment, username varchar(50) not null, password varchar(50) not null, points int default 0, accuracy float default 0.0, PRIMARY KEY(ursno))")    
+    cur.execute("CREATE TABLE USERS (ursno int not null auto_increment, username varchar(50) not null unique, password varchar(50) not null, points int default 0, PRIMARY KEY(ursno))")    
     print("Creating Table...")
     time.sleep(3)
 
@@ -38,7 +39,7 @@ time.sleep(2)
 print("---------------------------------")
 print("Set up successful...")
 print("To start the game run the main file.")
-print("Hit enter to close the setup")
+print("Press enter to close the setup")
 print("---------------------------------")
 input()
 

@@ -1,3 +1,4 @@
+from webbrowser import get
 import mysql.connector
 
 passw = "mypass"
@@ -22,9 +23,9 @@ def signup(username, password):
     conn = mysql.connector.connect(host="localhost", user="root", password=passw, database="quizdb")
     cur = conn.cursor()
     try:
-        cur.execute(f"insert into users values(default,'{username}', '{password}', 0, 0.0)")
+        cur.execute(f"insert into users values(default,'{username}', '{password}', 0)")
     except mysql.connector.Error as err:
-        print("Couldn't sign up due to : ", err.msg)
+        print("Couldn't sign up due to : ", err.msg) 
         return False
     else:
         print(f"User created with Username: {username} and password: {password}")
@@ -44,39 +45,48 @@ def update_points(username, points):
         print("Couldn't update points due to : ", err.msg)
         return False
     else:
-        print("Update succesful")
         conn.commit()
         conn.close()
 
-def update_accuracy(username, accuracy):
-    conn = mysql.connector.connect(host="localhost", user="root", password=passw, database="quizdb")
-    cur = conn.cursor()
-    try:
-        cur.execute(f"update users set points = {accuracy} where username = '{username}'")
-    except mysql.connector.Error as err:
-        print("Couldn't update points due to : ", err.msg)
-        return False
-    else:
-        print("Update succesful")
-        conn.commit()
-        conn.close()
 
-def get_accuracy(username):
+
+def get_points(username):
     conn = mysql.connector.connect(host="localhost", user="root", password=passw, database="quizdb")
     cur = conn.cursor()
     try:
         cur.execute(f"select points from users where username = '{username}'")
-        points = 0
+        data = cur.fetchone()
     except mysql.connector.Error as err:
-        print("Couldn't update points due to : ", err.msg)
-        return False
+        print("Couldn't fetch points due to : ", err.msg)
     else:
-        print("Update succesful")
         conn.commit()
         conn.close()
-
-def get_points(username):
-    pass
+    return data[0]
 
 def get_lb():
-    pass
+    conn = mysql.connector.connect(host="localhost", user="root", password=passw, database="quizdb")
+    cur = conn.cursor()
+    try:
+        cur.execute(f"select username, points from users order by points desc")
+        data = cur.fetchall()
+        result = []
+        for i in data:
+            result.append(i)
+    except mysql.connector.Error as err:
+        print("Couldn't fetch points due to : ", err.msg)
+    else:
+        conn.commit()
+        conn.close()
+    return result
+
+def checkdb():
+    try:
+        conn = mysql.connector.connect(host="localhost", user="root", password=passw, database="quizdb")
+        cur = conn.cursor()
+    except mysql.connector.ProgrammingError:
+        print("--------------")
+        print("No database found please run the install file to fix this.")
+        print("--------------")
+        return False
+    else:
+        return True

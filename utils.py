@@ -1,6 +1,6 @@
-#import ....
-def startup():
-    pass
+from db_connector import  update_points
+import time
+import re
 
 def check_login(flag):
     if flag == True:
@@ -8,49 +8,56 @@ def check_login(flag):
     else:
         return False
 
-def game(flag,topic):
-    input("Hit enter to start.......")
+def game(flag,player):
     if check_login(flag):
-        qna_dict = get_questions(topic)
-        questions = qna_dict.keys()
-        answers = qna_dict.values()
+        qna = get_questions()
+        questions = qna[0]
+        answers = qna[1]
         counter = 0
         user_answers = []
-
         while counter != len(questions):
-            print("The first question is: ")
+            print("--------------")
+            print("The question is: ")
             print(questions[counter])
             answer = input("Enter your answer: ")
-            user_answers.append(answer)
-
+            user_answers.append(answer.lower())
+            print("--------------")
+            counter += 1
+        print("Round completed. Evaluating points...")
+        time.sleep(3)
         points = 0
-        for i in user_answers:
-            if i == answers[user_answers.index(i)]:
+        for i in range(len(user_answers)):
+            if user_answers[i] == answers[i]:
                 points+=1
-                print("Question number", answers.index(i), "✓")
                 print("--------------")
-            elif i != answers[user_answers.index(i)]:
-                print("Question number" , user_answers.index(i), "X")
-                print("Your answer: ", i)
-                print("Correct answer: ", answers[user_answers.index(i)])
+                print("Question number", i+1, "✓")
                 print("--------------")
+            elif user_answers[i] != answers[i]:
+                print("--------------")
+                print("Question number" , i+1, "X")
+                print("Your answer: ", user_answers[i])
+                print("Correct answer: ", answers[i])
+                print("--------------")
+            time.sleep(0.5)
+        print("--------------")
         print("You scored: ", points, "Out of : ", len(questions))
-
-        update_user_score(points)
-        update_user_accuracy(points, len(questions))
+        print("--------------")
+        time.sleep(5)
+        update_points(player,points)
     else:
         return
 
-def update_user_score(score):
-    #upload to db
-    pass
-def update_user_accuracy(correct, total):
-    accuracy = total - correct/total
-    #upload to db
-    pass
-def show_leaderboard():
-    #get from db
-    pass
-def get_questions(topic):
-    #get from txt files
-    pass
+
+def get_questions():
+    file = open("questions.txt", 'r')
+    lines = file.readlines()
+    questions = []
+    answers = []
+    a = []
+    for i in lines:
+        line = i.split("|")
+        questions.append(line[0])
+        a.append(line[1].lower())
+    for j in a:
+        answers.append(re.sub("\n","", j))
+    return questions, answers
