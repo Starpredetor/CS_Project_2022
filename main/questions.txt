@@ -1,2 +1,2 @@
 Q1 Whose nose grows longer every time they tell a lie?|Pinocchio
-Q2 Which planet is closest to Earth?|Mercury
+Q2 Which planet is closest to Sun?|Mercury

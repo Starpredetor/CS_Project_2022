@@ -1,5 +1,5 @@
-from utils.backend import game
-from utils.db_connector import login, signup, get_points, get_lb , checkdb
+from backend import game
+from db_connector import login, signup, get_points, get_lb , checkdb
 import time
 flag = False
 def m_login(username, password):

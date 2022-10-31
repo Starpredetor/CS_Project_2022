@@ -1,6 +1,9 @@
-from utils.db_connector import  update_points
+from db_connector import  update_points
 import time
 import re
+import os
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.join(THIS_FOLDER, 'questions.txt')
 
 def check_login(flag):
     if flag == True:
@@ -49,7 +52,7 @@ def game(flag,player):
 
 
 def get_questions():
-    file = open("questions.txt", 'r')
+    file = open(my_file, 'r')
     lines = file.readlines()
     questions = []
     answers = []
@@ -61,3 +64,4 @@ def get_questions():
     for j in a:
         answers.append(re.sub("\n","", j))
     return questions, answers
+
