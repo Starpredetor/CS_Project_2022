@@ -1,6 +1,16 @@
 import mysql.connector
+import re
 
-passw = "mypass"
+try:
+    with open("dbpass.txt") as f:
+        l = f.readlines()
+        passw = re.sub("\n","", l[0])
+except Exception as e:
+    print(e)
+    print("Run the Install file to fix this")
+    print("Press any key to close")
+    input()
+    exit("Run install file")
 
 def login(username, password):
     conn = mysql.connector.connect(host="localhost", user="root", password=passw, database="quizdb")

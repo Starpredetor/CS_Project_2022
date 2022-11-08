@@ -45,7 +45,6 @@ if checkdb():
                     print("Enter 2 to get your current points.")
                     print("Enter 3 to get local learderboard.")
                     print("Enter 4 to log out.")
-                    print("Enter 5 for help.")
                     print("--------------------")
                     m_ch = int(input("Enter your choice: "))
                     if m_ch == 1:
@@ -70,14 +69,6 @@ if checkdb():
                         print("Logging out...")
                         print("--------------------")
                         break
-                    elif m_ch == 5:
-                        print("--------------------")
-                        print("Enter 1 to start a new game.")
-                        print("Enter 2 to get your current points.")
-                        print("Enter 3 to get local learderboard.")
-                        print("Enter 4 to exit the game.")
-                        print("Enter 5 for help.")
-                        print("--------------------")
                     else:
                         print("Invalid input enter 6 to get help.")
         elif ch == 2:

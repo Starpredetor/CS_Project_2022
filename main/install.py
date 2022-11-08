@@ -1,7 +1,10 @@
 #Only run this file once before execution of the main file
 import mysql.connector
 import time
+import os
 
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.exists(os.path.join(THIS_FOLDER, 'dbpass.txt'))
 print("---------------------------------")
 print("Starting setup for Quiz Generator....")
 
@@ -10,6 +13,14 @@ time.sleep(3)
 
 passw = input("Enter the default database password for this machine: ")
 conn = mysql.connector.connect(host="localhost", user="root", password=passw, database="")
+if not my_file:
+    with open("dbpass.txt", "w+") as f:
+        if f.read() == "":
+            f.write(passw)
+        else:
+            pass
+    
+
 cur = conn.cursor()
 print("---------------------------------")
 try:
